@@ -84,12 +84,41 @@ const starships: IStarship[] = [
   },
 ];
 
+const planets = [
+  { id: 1, name: "Tatooine", climate: "arid", terrain: "desert" },
+  { id: 2, name: "Alderaan", climate: "temperate", terrain: "grasslands" },
+  { id: 3, name: "Hoth", climate: "frozen", terrain: "ice caves" },
+  { id: 4, name: "Dagobah", climate: "murky", terrain: "swamp" },
+  { id: 5, name: "Bespin", climate: "temperate", terrain: "gas giant" },
+  { id: 6, name: "Endor", climate: "temperate", terrain: "forests" },
+  { id: 7, name: "Naboo", climate: "temperate", terrain: "grasslands" },
+  { id: 8, name: "Kamino", climate: "rainy", terrain: "ocean" },
+  { id: 9, name: "Geonosis", climate: "temperate", terrain: "rocky" },
+  { id: 10, name: "Mustafar", climate: "hot", terrain: "lava fields" },
+];
+
 app.get("/people", (req, res) => {
   res.json(people);
 });
 
 app.get("/starships", (req, res) => {
   res.json(starships);
+});
+
+app.get("/planets", (req, res) => {
+  res.json(planets);
+});
+
+app.post("/starships", express.json(), (req, res) => {
+  const newStarship: IStarship = req.body;
+  if (!newStarship.name || !newStarship.model || !newStarship.manufacturer) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+  newStarship.id = starships.length
+    ? starships[starships.length - 1].id + 1
+    : 1;
+  starships.push(newStarship);
+  res.status(201).json(starships);
 });
 
 app.listen(port, () => {

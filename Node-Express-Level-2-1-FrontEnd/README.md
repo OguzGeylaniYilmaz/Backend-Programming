@@ -52,3 +52,8 @@ export default tseslint.config({
   },
 })
 ```
+
+How does project look like?
+
+![Image](./images/project.png)
+
